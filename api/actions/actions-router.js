@@ -19,7 +19,13 @@ router.get('/:id', (req, res) => {
 	const { id } = req.params;
 	
 	Actions.get(id)
-		.then((data) => res.status(200).json(data))
+		.then((data) => {
+			if (!data) {
+				res.status(404).json({message: "Action not found. Please provide a valid id." })
+			} else {
+				res.status(200).json(data)
+			}
+		})
 		.catch(() => mw.serverError);
 
 });
